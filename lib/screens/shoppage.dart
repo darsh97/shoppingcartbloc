@@ -36,37 +36,40 @@ class _ShoppingPageState extends State<ShoppingPage> {
           builder: (context, state) {
             if (state is ShopLoadSucess) {
               final repo = state.shopcartrepo;
-              return StreamBuilder(
-                initialData: repo.allItems,
-                stream: repo.getStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data['shop items'].length,
-                      itemBuilder: (context, index) {
-                        final shoplst = snapshot.data['shop items'];
-                        final item = shoplst[index] as Item;
-                        return ListTile(
-                          title: Text(item.name),
-                          subtitle: Text("\$${item.price}"),
-                          trailing: IconButton(
-                            icon: Icon(Icons.add_shopping_cart),
-                            onPressed: () {
-                              BlocProvider.of<ShopBloc>(context)
-                                  .add(RemoveItemFromShop(item: item));
-                            },
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(
-                      child: Container(
-                        child: Text("No data in snapshot"),
-                      ),
-                    );
-                  }
-                },
+              return Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: StreamBuilder(
+                  initialData: repo.allItems,
+                  stream: repo.getStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data['shop items'].length,
+                        itemBuilder: (context, index) {
+                          final shoplst = snapshot.data['shop items'];
+                          final item = shoplst[index] as Item;
+                          return ListTile(
+                            title: Text(item.name),
+                            subtitle: Text("\$${item.price}"),
+                            trailing: IconButton(
+                              icon: Icon(Icons.add_shopping_cart),
+                              onPressed: () {
+                                BlocProvider.of<ShopBloc>(context)
+                                    .add(RemoveItemFromShop(item: item));
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(
+                        child: Container(
+                          child: Text("No data in snapshot"),
+                        ),
+                      );
+                    }
+                  },
+                ),
               );
             } else {
               return Center(child: Text("$state"));

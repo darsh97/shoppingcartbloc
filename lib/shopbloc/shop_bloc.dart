@@ -12,6 +12,7 @@ part 'shop_state.dart';
 
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
   final ShopCartRepo shopcartrepo;
+
   ShopBloc(this.shopcartrepo) : super(ShopInitial());
 
   @override
